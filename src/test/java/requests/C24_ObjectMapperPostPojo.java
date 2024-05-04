@@ -5,13 +5,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
+import pojos.JsonPlaceHolderPojo;
 
-import java.util.Map;
+import java.util.Objects;
 
 import static io.restassured.RestAssured.given;
-import static org.testng.Assert.assertEquals;
 
-public class C23_ObjectMapperPostMap extends JsonPlaceHolderBaseUrl {
+public class C24_ObjectMapperPostPojo extends JsonPlaceHolderBaseUrl {
+
 /*
          Given
            1) https://jsonplaceholder.typicode.com/todos
@@ -35,20 +36,20 @@ public class C23_ObjectMapperPostMap extends JsonPlaceHolderBaseUrl {
 */
 
     @Test
-    public void objectMapperMap() throws JsonProcessingException {
+    public void objectMapperPostPojoTest() throws JsonProcessingException {
         //Set the url
         spec.pathParams("first", "todos");
 
         //Set the expected data
         String strJson = """
                 {
-                "userId": 55,
-                "title": "Tidy your room",
-                "completed": false
+                    "userId": 55,
+                    "title": "Tidy your room",
+                    "completed": false
                 }
-                """; //We wil use this String Json to convert it to Pojo object
+                """;
 
-        Map expectedData = new ObjectMapper().readValue(strJson, Map.class);//This readValue method works with two parameters. First one is String formatted Json, second one is the data type you want to convert the json to.
+        JsonPlaceHolderPojo expectedData = new ObjectMapper().readValue(strJson, JsonPlaceHolderPojo.class);
         System.out.println("expectedData = " + expectedData);
 
         //Send the request and get the response
@@ -56,13 +57,14 @@ public class C23_ObjectMapperPostMap extends JsonPlaceHolderBaseUrl {
         response.prettyPrint();
 
         //Do assertion
-        Map actualData = new ObjectMapper().readValue(response.asString(), Map.class);
+        JsonPlaceHolderPojo actualData = new ObjectMapper().readValue(response.asString(), JsonPlaceHolderPojo.class);
         System.out.println("actualData = " + actualData);
 
-        assertEquals(response.statusCode(), 201);
-        assertEquals(actualData.get("userId"), expectedData.get("userId"));
-        assertEquals(actualData.get("title"), expectedData.get("title"));
-        assertEquals(actualData.get("completed"), expectedData.get("completed"));
+        assert response.statusCode()==201 : "Status code did not match";//This is Java assertion
+        assert actualData.getUserId()==expectedData.getUserId() : "userId did not match";
+        assert Objects.equals(actualData.getTitle(), expectedData.getTitle()) : "title did not match";
+        assert actualData.getCompleted()==expectedData.getCompleted() : "completed did not match";
+
 
     }
 

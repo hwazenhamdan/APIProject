@@ -11,6 +11,9 @@ public class JsonPlaceHolderPojo {
 
     //Create constructors with parameters and without parameters
     public JsonPlaceHolderPojo() {
+        //We need this for de-serialization.
+        // Because when you create a constructor in a class, default constructor will disappear.
+        // An empty constructor will be used as default constructor.
     }
 
     public JsonPlaceHolderPojo(Integer userId, String title, Boolean completed) {

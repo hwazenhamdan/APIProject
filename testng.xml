@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd"><suite name="All Test Suite"><test verbose="2" preserve-order="true" name="/Users/hwazenhamdan/APIProject/src/test/java/petstore_pet"><classes><class name="petstore_pet.R01_CreatePet"><methods><include name="postTest"/></methods></class><class name="petstore_pet.R02_GetPet"><methods><include name="postTest"/></methods></class></classes></test></suite>
